@@ -54,9 +54,7 @@ for x in range(i):
     ct101_kp.append(kp)
     ct101_dsc.append(dsc)
     
-# =============================================================================
 # Sift Features
-# =============================================================================
 ct101_sf = []
 # change your dir
 path_sf = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TrainData/SiftFeatures" 
