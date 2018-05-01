@@ -24,8 +24,8 @@ def gen_sift_features(gray_img):
 # Display of features of sift 
 # =============================================================================
 def show_sift_features(gray_img, color_img, key_p):
-    return plt.imshow(cv2.drawKeypoints(gray_img,key_p,color_img.copy()))
-
+    #return plt.imshow(cv2.drawKeypoints(gray_img,key_p,color_img.copy()))
+    return cv2.drawKeypoints(gray_img,key_p,color_img.copy())
 # =============================================================================
 # Main Code
 # =============================================================================
@@ -38,10 +38,14 @@ for img in scr_file:
     cv_img.append(n)                #color image
 
 ct101_gray = [] 
-#path_g = "C:/Users/blaze03/Desktop/Sift_v01/Gray"
+#change your dir
+path_g = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TrainData/Gray" 
 for x in range(i):
     g = to_gray(cv_img[x])
     ct101_gray.append(g)            #gray scale image
+    #change path_g to the variable you declare your path
+    cv2.imwrite(os.path.join(path_g , "test_img_gray_%d.jpg" %x), ct101_gray[x])
+    cv2.waitKey(0)
     
 ct101_kp = []
 ct101_dsc = []
@@ -49,12 +53,16 @@ for x in range(i):
     kp, dsc = gen_sift_features(ct101_gray[x])
     ct101_kp.append(kp)
     ct101_dsc.append(dsc)
-
-
+    
 # =============================================================================
 # Sift Features
 # =============================================================================
 ct101_sf = []
+# change your dir
+path_sf = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TrainData/SiftFeatures" 
 for x in range(i):
     sf = show_sift_features(ct101_gray[x], cv_img[x], ct101_kp[x])
     ct101_sf.append(sf)
+    #change path_sf
+    cv2.imwrite(os.path.join(path_sf , "test_img_sf_%d.jpg" %x), ct101_sf[x])
+    cv2.waitKey(0)
