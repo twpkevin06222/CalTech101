@@ -39,7 +39,7 @@ for img in scr_file:
 
 ct101_gray = [] 
 #change your dir
-path_g = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TrainData/Gray" 
+path_g = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TestData/Gray" 
 for x in range(i):
     g = to_gray(cv_img[x])
     ct101_gray.append(g)            #gray scale image
@@ -57,7 +57,7 @@ for x in range(i):
 # Sift Features
 ct101_sf = []
 # change your dir
-path_sf = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TrainData/SiftFeatures" 
+path_sf = "C:/Users/blaze03/Desktop/Sift_v01/Airplanes/TestData/SiftFeatures" 
 for x in range(i):
     sf = show_sift_features(ct101_gray[x], cv_img[x], ct101_kp[x])
     ct101_sf.append(sf)
