@@ -1,0 +1,33 @@
+% This program helps detecting edges with Sobel and Canny detectors and also helps in finding corners through Harris Corner detection
+
+function edgedetect(filename)
+b = imread(filename);
+I = rgb2gray(b);
+figure(1);
+imshow(I)
+
+BW1 = edge(I,'sobel');
+BW2 = edge(I,'canny');
+figure(2);
+imshowpair(BW1,BW2,'montage')
+title('Sobel Filter                                       Canny filter')
+figure(3);
+imshow(BW1)
+hold on
+title('Sobel filter')
+hold off
+figure(4);
+imshow(BW2)
+hold on
+title('Canny filter')
+hold off
+
+
+
+C = detectHarrisFeatures(BW1);
+imshow(BW1);
+hold on;
+
+plot(C.selectStrongest(100));
+title('Harris Corner detection');
+end
