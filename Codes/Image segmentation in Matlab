@@ -1,0 +1,8 @@
+%Image segmentation
+function imageseg
+a = imread('image_0100.jpg');
+level = graythresh(a);
+c = im2bw(a,level);
+subplot(1,2,1), imshow(a), title('Human Brain');
+subplot(1,2,2), imshow(c), title('Human Brain segmentation');
+end
