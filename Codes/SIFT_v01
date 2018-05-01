@@ -24,8 +24,8 @@ def gen_sift_features(gray_img):
 # Display of features of sift 
 # =============================================================================
 def show_sift_features(gray_img, color_img, key_p):
-    #return plt.imshow(cv2.drawKeypoints(gray_img,key_p,color_img.copy()))
     return cv2.drawKeypoints(gray_img,key_p,color_img.copy())
+    
 # =============================================================================
 # Main Code
 # =============================================================================
