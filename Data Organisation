@@ -1,0 +1,29 @@
+clear all;                                                                  % clears workspace
+clc;                                                                        % clears command window
+New_Directory = fullfile('E:\caltech101\');                                 % builds full file name from parts
+b = dir('E:\caltech101\');                                                  % lists all the folder contents
+for i = 3:numel(b)                                                          % for loop which runs till the whole length of folders in b
+folder_dir = fullfile(New_Directory, b(i).name);                            % Takes the full file name of 
+type_image = '\*.jpg';                                                      % mentioning the type of image
+image_dir = dir(fullfile(folder_dir,type_image));                           %finding the images names in the particular folder
+length_class = numel(image_dir);                                            % finding the number of images in the folder
+length_classfolder = floor(length_class/10);                                % finding out images needed in each fold
+ii = 1;                                                                     % for revaluing the value ii to 1
+for id = 1 : 10                                                             % for loop for 10 folds
+   idpath = fullfile(folder_dir, strcat(b(i).name, num2str(id)));           % setting path for creating the folder name
+   mkdir(idpath);                                                           % make a new folder        
+   if id == 10                                                              % checking if it is tenth fold
+       length_classfolder = length_class - ii + 1;                          %changing last fold value to move all remaining images
+   end
+   for iii = ii : ii + (length_classfolder -1)                              % loop for copying images into each fold
+       filename = strcat(image_dir(iii).folder, '\', image_dir(iii).name);   
+       I = imread(filename);                                                % read particular images according to specified path in filename
+       pathofimage = strcat(idpath, '\', image_dir(iii).name);              % setting path to move image
+       imwrite(I,pathofimage);                                              % copying the particular image
+       delete(filename);                                                    % deleting the image which is copied
+       if iii == (ii + (length_classfolder-1))                              % checking if 1st fold is finished
+           ii = iii + 1;                                                    % setting the starting value of image in next fold
+       end 
+   end   
+end
+end
