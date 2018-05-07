@@ -22,7 +22,7 @@ for id = 1 : 10                                                             % fo
        imwrite(I,pathofimage);                                              % copying the particular image
        delete(filename);                                                    % deleting the image which is copied
        if iii == (ii + (length_classfolder-1))                              % checking if 1st fold is finished
-           ii = iii + 1;                                                    % setting the starting value of image in next fold
+           ii = iii + 1 ;                                                    % setting the starting value of image in next fold
        end 
    end   
 end
