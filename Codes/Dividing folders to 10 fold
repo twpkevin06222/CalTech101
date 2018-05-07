@@ -1,0 +1,14 @@
+clear all;
+clc;
+New_Directory = fullfile('E:\caltech101\');
+b = dir('E:\caltech101\');
+for i = 3:numel(b)
+plasma_dir = fullfile(New_Directory, b(i).name);
+%mkdir(plasma_dir);
+%Num_IDs = input('Enter the number of IDs: ');
+for id = 1 : 10
+   %iddir = input('Enter ID number: ', 's');
+   idpath = fullfile(plasma_dir, strcat(b(i).name, num2str(id)));
+   mkdir(idpath);         %not even needed, will be created by the next mkdir anyway.
+end
+end
