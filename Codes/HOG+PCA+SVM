@@ -3,9 +3,10 @@ import glob
 import numpy as np 
 import cv2
 from sklearn import svm
-from sklearn.cross_validation import StratifiedKFold
+#from sklearn.cross_validation import StratifiedKFold
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import KFold
+from sklearn.cross_validation import StratifiedKFold
 import matplotlib.pyplot as plt
 #from mlxtend.evaluate import confusion_matrix
 
@@ -32,7 +33,7 @@ for jj in range(len(no_imgs)):
     for ii in range(temp2,temp3): 
        y[ii] = jj
     temp2 = temp2+ int(temp1[jj+1])
-    
+y = y.astype(np.int32)    
 # =============================================================================
 # HOG 
 # =============================================================================
@@ -44,10 +45,6 @@ cell_size = (8, 8)
 num_bins = 9
 hog = cv2.HOGDescriptor(win_size, block_size, block_stride, cell_size, num_bins)
 
-# =============================================================================
-# X = np.zeros((sum(no_imgs),320)) # Feature Matrix
-# cnt = 0
-# =============================================================================
 x_pos=[]
 for i in range(len(list_fams)):
     os.chdir(list_fams[i])
@@ -58,19 +55,22 @@ for i in range(len(list_fams)):
         x_pos.append(img_hog)
     os.chdir('..')
 x_pos = np.array(x_pos, dtype=np.float32)
-x_new01 = x_pos.reshape(int(x_pos.size/1980),1,1980)
-x_new01 = x_pos.reshape(int(x_pos.size/1980),1980)
+x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
 print(x_new01.shape)
 # =============================================================================
-# 
+# Dimension Reduction 
 # =============================================================================
-n_samples, n_feature = x_new01.shape
-p = range(n_samples) # an index array, 0:n_samples
-x_new01, y = x_new01[p], y[p] # both the arrays are now shuffled
-
+x_t = x_new01.transpose()
+mu, eig = cv2.PCACompute(x_t, np.array([]))
+x_pca = cv2.PCAProject(x_t,mu,eig)
+x_pca = x_pca.transpose()      #Tranpose back so that matrix (no of images, features)
+# =============================================================================
+# Cross Validation + Classification 
+# =============================================================================
 #cross validate
 kfold = 10
-clf= svm.SVC(kernel='rbf', gamma=0.7) 
+#clf= svm.SVC(kernel='rbf', gamma=0.7) #SVM classifier
+clf= svm.SVC(kernel='linear', C=1)
 
 skf = StratifiedKFold(y,kfold)
 skfind = [None]*len(skf) # indices
@@ -79,14 +79,15 @@ for train_index in skf:
   skfind[cnt] = train_index
   cnt = cnt + 1
 
+x_p = x_pca  #change the value for x 
 conf_mat = np.zeros((len(no_imgs),len(no_imgs)))
 #k-fold cross validation 
 for i in range(kfold):
     train_indices = skfind[i][0]
     test_indices = skfind[i][1]
-    X_train = x_new01[train_indices]
+    X_train = x_p[train_indices]
     y_train = y[train_indices]
-    X_test = x_new01[test_indices]
+    X_test = x_p[test_indices]
     y_test = y[test_indices]  
     clf.fit(X_train,y_train)  #Training    
     y_predict = clf.predict(X_test) # output is labels and not indices  #Testing      
