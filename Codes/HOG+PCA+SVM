@@ -62,7 +62,6 @@ print(x_new01.shape)
 x_t = x_new01.transpose()
 mu, eig = cv2.PCACompute(x_t, np.array([]))
 x_pca = cv2.PCAProject(x_t,mu,eig)
-x_pca = x_pca.transpose()      #Tranpose back so that matrix (no of images, features)
 # =============================================================================
 # Cross Validation + Classification 
 # =============================================================================
