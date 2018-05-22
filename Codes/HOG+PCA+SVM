@@ -5,7 +5,6 @@ import cv2
 from sklearn import svm
 #from sklearn.cross_validation import StratifiedKFold
 from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import KFold
 from sklearn.cross_validation import StratifiedKFold
 import matplotlib.pyplot as plt
 #from mlxtend.evaluate import confusion_matrix
