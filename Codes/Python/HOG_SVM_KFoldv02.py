@@ -61,11 +61,10 @@ x_pos = np.array(x_pos, dtype=np.float32)
 x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
 print(x_new01.shape)
 # =============================================================================
-# cross validation 
+# cross validation with SVM 
 # =============================================================================
 C_p = 1.5
-clf= svm.SVC(kernel='linear', C= C_p)
-#clf= svm.SVC(kernel='rbf', gamma=0.7)
+clf= svm.SVC(kernel='linear', C= C_p) #Here comes the SVM model
 conf_mat = []
 x_p = x_new01
 kf = 10
@@ -92,6 +91,10 @@ conf_mat_02 = np.array(conf_mat_02, dtype=np.float32)
 conf_mat_02 = conf_mat_02.T # since rows and  cols are interchanged
 avg_acc = np.trace(conf_mat_02)/((it*kf)*np.floor(sum(no_imgs)*((100-g)/100))) #calibration
 conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*(it*kf)) # Normalizing the confusion matrix
+
+# =============================================================================
+# Plot Confusion Matrix
+# =============================================================================
 print('Computing Confusion Matrix')
 plt.imshow(conf_mat_norm, interpolation='nearest')
 plt.title('Confusion matrix')
