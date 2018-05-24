@@ -8,7 +8,7 @@ Criterion:
 * Classifier: SVM (Linear Kernel)
 * Validation: K-fold Cross Validation ( K =10) 
 
-- Data Processing:
+Data Processing:
 1. HOG_data_preprocessing.py, handles the preprocessing of the images from CalTect101. 
 2. For computational performance all images are converted to gray scale. 
 3. To generate feature vectors of the same size for HOG, all images are resize to (128x60). 
