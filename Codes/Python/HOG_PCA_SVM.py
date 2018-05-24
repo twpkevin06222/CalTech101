@@ -64,9 +64,8 @@ print(x_new01.shape) #with the matrix (no of images, features per image)
 # =============================================================================
 C_p = 1.5
 clf= svm.SVC(kernel='linear', C= C_p)
-#clf= svm.SVC(kernel='rbf', gamma=0.7)
+
 conf_mat = np.zeros((len(no_imgs),len(no_imgs)))
-#kf = KFold(n_splits=10)
 rkf = RepeatedKFold(n_splits = 10, n_repeats = 10)
 for train, test in rkf.split(x_new01):
     X_train, X_test, y_train, y_test = x_new01[train], x_new01[test], y[train], y[test]
