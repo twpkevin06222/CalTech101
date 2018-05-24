@@ -7,7 +7,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import RepeatedKFold
 import matplotlib.pyplot as plt
 
-
+# =============================================================================
+# Read data and labeling classes 
+# =============================================================================
 os.chdir('C:/Users/blaze03/Desktop/tmp')
 list_fams = os.listdir(os.getcwd()) # vector of strings with family names
 
@@ -35,7 +37,6 @@ y = y.astype(np.int32)
 # =============================================================================
 # HOG 
 # =============================================================================
-
 win_size = (96, 48)
 block_size = (16, 16)
 block_stride = (8, 8)
