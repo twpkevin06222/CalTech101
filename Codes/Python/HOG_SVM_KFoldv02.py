@@ -13,6 +13,9 @@ from sklearn.model_selection import RepeatedKFold
 import matplotlib.pyplot as plt
 
 
+# =============================================================================
+# Read data and labeling classes 
+# =============================================================================
 os.chdir('C:/Users/blaze03/Desktop/tmp')
 list_fams = os.listdir(os.getcwd()) # vector of strings with family names
 
@@ -37,10 +40,10 @@ for jj in range(len(no_imgs)):
        y[ii] = jj
     temp2 = temp2+ int(temp1[jj+1])
 y = y.astype(np.int32)    
+
 # =============================================================================
 # HOG 
 # =============================================================================
-
 win_size = (96, 48)
 block_size = (16, 16)
 block_stride = (8, 8)
@@ -60,6 +63,7 @@ for i in range(len(list_fams)):
 x_pos = np.array(x_pos, dtype=np.float32)
 x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
 print(x_new01.shape)
+
 # =============================================================================
 # cross validation with SVM 
 # =============================================================================
