@@ -43,10 +43,6 @@ cell_size = (8, 8)
 num_bins = 9
 hog = cv2.HOGDescriptor(win_size, block_size, block_stride, cell_size, num_bins)
 
-# =============================================================================
-# X = np.zeros((sum(no_imgs),320)) # Feature Matrix
-# cnt = 0
-# =============================================================================
 x_pos=[]
 for i in range(len(list_fams)):
     os.chdir(list_fams[i])
