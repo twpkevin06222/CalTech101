@@ -1,11 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May 24 13:39:54 2018
+@author: blaze03
+"""
 import os
 import glob 
 import numpy as np 
 import cv2
 from sklearn import svm
 from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import KFold, RepeatedKFold
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import RepeatedKFold
 import matplotlib.pyplot as plt
 
 
@@ -44,10 +48,6 @@ cell_size = (8, 8)
 num_bins = 9
 hog = cv2.HOGDescriptor(win_size, block_size, block_stride, cell_size, num_bins)
 
-# =============================================================================
-# X = np.zeros((sum(no_imgs),320)) # Feature Matrix
-# cnt = 0
-# =============================================================================
 x_pos=[]
 for i in range(len(list_fams)):
     os.chdir(list_fams[i])
@@ -61,47 +61,42 @@ x_pos = np.array(x_pos, dtype=np.float32)
 x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
 print(x_new01.shape)
 # =============================================================================
-# Dimension Reduction 
-# =============================================================================
-# =============================================================================
-# x_t = x_new01.transpose()
-# mu, eig = cv2.PCACompute(x_t, np.array([]))
-# x_pca = cv2.PCAProject(x_t,mu,eig)
-# x_pca = x_pca.transpose()      #Tranpose back so that matrix (no of images, features)
-# =============================================================================
-# =============================================================================
 # cross validation 
 # =============================================================================
 C_p = 1.5
 clf= svm.SVC(kernel='linear', C= C_p)
 #clf= svm.SVC(kernel='rbf', gamma=0.7)
-#conf_mat = np.zeros((len(no_imgs),len(no_imgs)))
-#kf = KFold(n_splits=10)
 conf_mat = []
 x_p = x_new01
-kf = 10   #k_folds
-iter = 1  #iterations
-rkf = RepeatedKFold(n_splits = kf, n_repeats = kf*iter)
+kf = 10
+it = 1 #multiplication of iterations base 10
+rkf = RepeatedKFold(n_splits = kf, n_repeats = (kf*it))
 for train, test in rkf.split(x_p):
     X_train, X_test, y_train, y_test = x_p[train], x_p[test], y[train], y[test]
     clf.fit(X_train,y_train)
     y_predict = clf.predict(X_test)
     cm = confusion_matrix(y_test,y_predict)
     conf_mat.append(cm)
-    
-conf_mat = np.array(conf_mat, dtype=np.float32)
-conf_mat_02 = np.zeros((conf_mat.shape[1],conf_mat.shape[2]))
-for i in range(conf_mat.shape[0]):
-    conf_mat_02+=conf_mat[i]
-    
+
+conf_mat = np.array(conf_mat) #convert into numpy array for convenience 
+conf_mat_02 = np.zeros((len(no_imgs),len(no_imgs)))     
+
+g = 0 #labels that do not fullfil the matrix size of confusion matrix
+for n in range(len(conf_mat)):
+    if(conf_mat[n].shape[0]<len(no_imgs)): #condition to check if the matrix fullfill or not
+        g+=1
+        continue
+    conf_mat_02+=conf_mat[n]
+print(g,'confusion matrix not fullfil the matrix size')
+conf_mat_02 = np.array(conf_mat_02, dtype=np.float32)    
 conf_mat_02 = conf_mat_02.T # since rows and  cols are interchanged
-avg_acc = np.trace(conf_mat_02)/((iter*kf)*sum(no_imgs))
-conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*(kf*iter)) # Normalizing the confusion matrix
+avg_acc = np.trace(conf_mat_02)/((it*kf)*np.floor(sum(no_imgs)*((100-g)/100))) #calibration
+conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*(it*kf)) # Normalizing the confusion matrix
 print('Computing Confusion Matrix')
 plt.imshow(conf_mat_norm, interpolation='nearest')
 plt.title('Confusion matrix')
 plt.colorbar()
 plt.show()
 print('Accuracy of the method is', avg_acc)
-if(cm.shape[0]<len(no_imgs)):
-    print((len(no_imgs)-cm.shape[0]),'Label missing!')
+
+
