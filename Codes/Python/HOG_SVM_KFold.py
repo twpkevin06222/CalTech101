@@ -56,10 +56,10 @@ x_pos = np.array(x_pos, dtype=np.float32)
 x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
 print(x_new01.shape) #with the matrix (no of images, features per image)
 # =============================================================================
-# cross validation 
+# cross validation for SVM
 # =============================================================================
 C_p = 1.5
-clf= svm.SVC(kernel='linear', C= C_p)
+clf= svm.SVC(kernel='linear', C= C_p) #here comes SVM
 
 conf_mat = np.zeros((len(no_imgs),len(no_imgs)))
 rkf = RepeatedKFold(n_splits = 10, n_repeats = 10)
@@ -73,6 +73,9 @@ for train, test in rkf.split(x_new01):
 conf_mat = conf_mat.T # since rows and  cols are interchanged
 avg_acc = np.trace(conf_mat)/(10*sum(no_imgs))
 conf_mat_norm = np.array(conf_mat)/(np.array(no_imgs, dtype =int)*10) # Normalizing the confusion matrix
+# =============================================================================
+# Plot Confusion Matrix
+# =============================================================================
 print('Computing Confusion Matrix')
 plt.imshow(conf_mat_norm, interpolation='nearest')
 plt.title('Confusion matrix')
