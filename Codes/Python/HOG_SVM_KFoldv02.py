@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May 24 13:39:54 2018
-@author: blaze03
-"""
+
 import os
 import glob 
 import numpy as np 
@@ -13,9 +9,6 @@ from sklearn.model_selection import RepeatedKFold
 import matplotlib.pyplot as plt
 
 
-# =============================================================================
-# Read data and labeling classes 
-# =============================================================================
 os.chdir('C:/Users/blaze03/Desktop/tmp')
 list_fams = os.listdir(os.getcwd()) # vector of strings with family names
 
@@ -40,10 +33,10 @@ for jj in range(len(no_imgs)):
        y[ii] = jj
     temp2 = temp2+ int(temp1[jj+1])
 y = y.astype(np.int32)    
-
 # =============================================================================
 # HOG 
 # =============================================================================
+
 win_size = (96, 48)
 block_size = (16, 16)
 block_stride = (8, 8)
@@ -63,12 +56,12 @@ for i in range(len(list_fams)):
 x_pos = np.array(x_pos, dtype=np.float32)
 x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
 print(x_new01.shape)
-
 # =============================================================================
-# cross validation with SVM 
+# cross validation 
 # =============================================================================
 C_p = 1.5
-clf= svm.SVC(kernel='linear', C= C_p) #Here comes the SVM model
+clf= svm.SVC(kernel='linear', C= C_p)
+#clf= svm.SVC(kernel='rbf', gamma=0.7)
 conf_mat = []
 x_p = x_new01
 kf = 10
@@ -93,8 +86,9 @@ for n in range(len(conf_mat)):
 print(g,'confusion matrix not fullfil the matrix size')
 conf_mat_02 = np.array(conf_mat_02, dtype=np.float32)    
 conf_mat_02 = conf_mat_02.T # since rows and  cols are interchanged
-avg_acc = np.trace(conf_mat_02)/((it*kf)*np.floor(sum(no_imgs)*((100-g)/100))) #calibration
-conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*(it*kf)) # Normalizing the confusion matrix
+avg_acc = np.trace(conf_mat_02)/((it*kf)*(sum(no_imgs)*((100-g)/100))) #calibration
+# Normalizing the confusion matrix and calibrate it
+conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*((it*kf)**((100-g)/100))) 
 
 # =============================================================================
 # Plot Confusion Matrix
@@ -104,6 +98,25 @@ plt.imshow(conf_mat_norm, interpolation='nearest')
 plt.title('Confusion matrix')
 plt.colorbar()
 plt.show()
+
+# =============================================================================
+# Accuracy 
+# =============================================================================
 print('Accuracy of the method is', avg_acc)
 
+for n in range (len(conf_mat_norm.diagonal())):
+    if(conf_mat_norm.diagonal()[n]==min(conf_mat_norm.diagonal())):
+        print('The lowest accuracy will be %f for class %s' %(conf_mat_norm.diagonal()[n],
+                                                              list_fams[n]))
+    if(conf_mat_norm.diagonal()[n]==max(conf_mat_norm.diagonal())):
+        print('The highest accuracy will be %f for class %s'%(conf_mat_norm.diagonal()[n],
+                                                             list_fams[n]))
 
+# =============================================================================
+# Diagonosis
+# =============================================================================
+for n in range (len(conf_mat_norm.diagonal())):
+    if(conf_mat_norm.diagonal()[n]<0.3): #to check which class is lower than 30%
+        #probability, directory name, number of images
+        print(conf_mat_norm.diagonal()[n],list_fams[n],no_imgs[n])
+        
