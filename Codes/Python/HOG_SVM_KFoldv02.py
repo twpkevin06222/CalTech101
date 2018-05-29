@@ -47,7 +47,7 @@ hog = cv2.HOGDescriptor(win_size, block_size, block_stride, cell_size, num_bins)
 x_pos=[]
 for i in range(len(list_fams)):
     os.chdir(list_fams[i])
-    img_list = glob.glob('*.jpg') # Getting only 'png' files in a folder
+    img_list = glob.glob('*.jpg') # Getting only 'jpg' files in a folder
     for j in range(len(img_list)):
         image = cv2.imread(img_list[j])
         img_hog = hog.compute(image,(64,64))
