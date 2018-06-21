@@ -62,7 +62,8 @@ for i in range(len(list_fams)):
     os.chdir('..')
 x_pos = np.array(x_pos, dtype=np.float32)
 x_new01 = x_pos.reshape(x_pos.shape[0], x_pos.shape[1])
-print(x_new01.shape)
+print('Total number of images, feature vector:',x_new01.shape)
+print()
 
 # =============================================================================
 # PCA
@@ -90,7 +91,8 @@ for train, test in rkf.split(x_p):
     cm = confusion_matrix(y_test,y_predict)
     conf_mat.append(cm)
     loop+=1
-    print('Cross-validation loop:',loop)
+    if(loop%kf==0):
+        print('Cross-validation loop:',int(loop/kf))
 
 conf_mat = np.array(conf_mat) #convert into numpy array for convenience 
 conf_mat_02 = np.zeros((len(no_imgs),len(no_imgs)))     
@@ -104,9 +106,11 @@ for n in range(len(conf_mat)):
 print(g,'confusion matrix not fullfil the matrix size')
 conf_mat_02 = np.array(conf_mat_02, dtype=np.float32)    
 conf_mat_02 = conf_mat_02.T # since rows and  cols are interchanged
+#avg_acc = np.trace(conf_mat_02)/((it*kf)*(sum(no_imgs)*((100-g)/100))) #calibration
 # Normalizing the confusion matrix and calibrate it
 conf_mat_norm = conf_mat_02/conf_mat_02.sum(axis=1)[:,np.newaxis]
 avg_acc = np.trace(conf_mat_norm)/len(list_fams)
+#conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*((it*kf)**((100-g)/100))) 
 time_elapsed = (time.clock() - time_start)
 
 # =============================================================================
@@ -138,7 +142,8 @@ for n in range (len(conf_mat_norm.diagonal())):
 # =============================================================================
 f = open('/home/blaze03/ImageUnderstanding/caltech101_result.txt','w+')
 for n in range (len(conf_mat_norm.diagonal())):
-    f.write('%-20s %f \n'%(list_fams[n],conf_mat_norm.diagonal()[n]))
+    #print class name, accuracy per class, std dev per class
+    f.write('%-20s %f %12f\n'%(list_fams[n],conf_mat_norm.diagonal()[n],np.std(conf_mat_norm[n,:])))
 f.close()
 # =============================================================================
 # Diagonosis
@@ -149,7 +154,7 @@ for n in range (len(conf_mat_norm.diagonal())):
         #probability, directory name, number of images
         print(conf_mat_norm.diagonal()[n],list_fams[n],no_imgs[n])
         h+=1
-        
+print()        
 print('%d number of classes has acc lower than 30 percent.' %h)
 # =============================================================================
 # Time
