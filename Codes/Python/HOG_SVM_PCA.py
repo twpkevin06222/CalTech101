@@ -8,7 +8,7 @@ import numpy as np
 import cv2
 from sklearn.svm import LinearSVC
 from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import RepeatedKFold
+from sklearn.model_selection import StratifiedKFold
 import matplotlib.pyplot as plt
 import time 
 from sklearn.decomposition import PCA
@@ -78,21 +78,17 @@ clf= LinearSVC(C=C_p)
 #clf= svm.SVC(kernel='rbf', gamma=0.7)
 conf_mat = []
 x_p = pca_fit
-kf = 10
-it = 1 #multiplication of iterations base 10
-rkf = RepeatedKFold(n_splits = kf, n_repeats = (kf*it))
-
+skf = StratifiedKFold(n_splits=10)
 time_start = time.clock()
 loop = 0 
-for train, test in rkf.split(x_p):
+for train, test in skf.split(x_p, y):
     X_train, X_test, y_train, y_test = x_p[train], x_p[test], y[train], y[test]
     clf.fit(X_train,y_train)
     y_predict = clf.predict(X_test)
     cm = confusion_matrix(y_test,y_predict)
     conf_mat.append(cm)
     loop+=1
-    if(loop%kf==0):
-        print('Cross-validation loop:',int(loop/kf))
+    print('Cross-validation loop:',loop)
 
 conf_mat = np.array(conf_mat) #convert into numpy array for convenience 
 conf_mat_02 = np.zeros((len(no_imgs),len(no_imgs)))     
@@ -106,11 +102,8 @@ for n in range(len(conf_mat)):
 print(g,'confusion matrix not fullfil the matrix size')
 conf_mat_02 = np.array(conf_mat_02, dtype=np.float32)    
 conf_mat_02 = conf_mat_02.T # since rows and  cols are interchanged
-#avg_acc = np.trace(conf_mat_02)/((it*kf)*(sum(no_imgs)*((100-g)/100))) #calibration
-# Normalizing the confusion matrix and calibrate it
 conf_mat_norm = conf_mat_02/conf_mat_02.sum(axis=1)[:,np.newaxis]
 avg_acc = np.trace(conf_mat_norm)/len(list_fams)
-#conf_mat_norm = np.array(conf_mat_02)/(np.array(no_imgs, dtype =int)*((it*kf)**((100-g)/100))) 
 time_elapsed = (time.clock() - time_start)
 
 # =============================================================================
@@ -164,6 +157,8 @@ if(time_elapsed<3600):
     print('Computation time: %f s' %time_elapsed)
 else:
     print('Computation time: %f hr' %(time_elapsed/3600))
+
+
 
 
 
