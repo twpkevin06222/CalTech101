@@ -28,7 +28,7 @@ for dir in main_dir:
     path_g = 'C:/Users/blaze03/Desktop/New/%s'%dir
     for x in range(i):
         g = to_gray(cv_img[x])
-        g_re = cv2.resize(g,(128,64))       #resizing need to be consider!
+        g_re = cv2.resize(g,(256,256))       #resizing need to be consider!
         ct101_gray.append(g_re)            #gray scale image
         #change path_g to the variable you declare your path
         cv2.imwrite(os.path.join(path_g , "img_gray_%d.jpg" %x), ct101_gray[x])
