@@ -11,6 +11,6 @@ Criterion:
 Data Processing:
 1. HOG_data_preprocessing.py, handles the preprocessing of the images from CalTech101. 
 2. For computational performance all images are converted to gray scale. 
-3. To generate feature vectors of the same size for HOG, all images are resize to (128x64). 
+3. To generate feature vectors of the same size for HOG, all images are resize to (256x256). 
 
 
