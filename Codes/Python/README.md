@@ -14,3 +14,115 @@ Data Processing:
 3. To generate feature vectors of the same size for HOG, all images are resize to (256x256). 
 
 
+HOG Parameters:
+hog_image = hog(image, orientations=9, pixels_per_cell=(32, 32),cells_per_block=(2, 2), visualise=True)
+
+Total number of images, feature vector: (8677, 324)
+
+-Result:
+#Class               #Accuracy    #Std.Dev
+accordion            0.940000     0.093072
+airplanes            0.932464     0.092263
+anchor               0.379310     0.040113
+ant                  0.281250     0.031690
+barrel               0.512195     0.051617
+bass                 0.322581     0.036242
+beaver               0.111111     0.027525
+binocular            0.541667     0.054736
+bonsai               0.487952     0.048383
+brain                0.477612     0.047572
+brontosaurus         0.521739     0.053296
+buddha               0.628866     0.062329
+butterfly            0.500000     0.049521
+camera               0.600000     0.060021
+cannon               0.190476     0.027068
+car_side             0.848276     0.084048
+ceiling_fan          0.384615     0.041095
+cellphone            0.879310     0.087085
+chair                0.615385     0.061090
+chandelier           0.547009     0.054119
+cougar_body          0.200000     0.027232
+cougar_face          0.469880     0.046874
+crab                 0.315217     0.032666
+crayfish             0.283784     0.030715
+crocodile            0.147059     0.022774
+crocodile_head       0.347826     0.035744
+cup                  0.644444     0.064199
+dalmatian            0.328571     0.033442
+dollar_bill          0.666667     0.066042
+dolphin              0.400000     0.040829
+dragonfly            0.709677     0.070395
+electric_guitar      0.681159     0.067484
+elephant             0.348485     0.035768
+emu                  0.225000     0.026579
+euphonium            0.800000     0.079419
+ewer                 0.662651     0.065694
+Faces                0.833006     0.082347
+Faces_easy           0.964126     0.095429
+ferry                0.586207     0.058498
+flamingo             0.312500     0.032740
+flamingo_head        0.476190     0.050287
+garfield             0.666667     0.066890
+gerenuk              0.269231     0.031861
+gramophone           0.627907     0.062552
+grand_piano          0.857143     0.084810
+hawksbill            0.453846     0.045105
+headphone            0.423077     0.044517
+hedgehog             0.375000     0.038564
+helicopter           0.560748     0.055561
+ibis                 0.411765     0.041606
+inline_skate         0.896552     0.088858
+joshua_tree          0.412500     0.041823
+kangaroo             0.358333     0.037003
+ketch                0.620155     0.062618
+lamp                 0.750000     0.074883
+laptop               0.839506     0.083118
+Leopards             0.513043     0.050540
+llama                0.388889     0.040469
+lobster              0.173913     0.029266
+lotus                0.346939     0.037731
+mandolin             0.606061     0.061368
+mayfly               0.153846     0.025760
+menorah              0.684211     0.067747
+metronome            0.695652     0.069458
+minaret              0.945205     0.093588
+Motorbikes           0.969549     0.095967
+nautilus             0.384615     0.039273
+octopus              0.421053     0.044260
+okapi                0.547619     0.055183
+pagoda               0.840000     0.083233
+panda                0.160000     0.025427
+pigeon               0.588235     0.059299
+pizza                0.409836     0.042729
+platypus             0.428571     0.047177
+pyramid              0.545455     0.054783
+revolver             0.785714     0.077733
+rhino                0.317647     0.033141
+rooster              0.673469     0.067020
+saxophone            0.615385     0.061627
+schooner             0.557377     0.057491
+scissors             0.652174     0.065291
+scorpion             0.324324     0.033095
+sea_horse            0.242424     0.027006
+snoopy               0.384615     0.040737
+soccer_ball          0.500000     0.050454
+stapler              0.611111     0.061007
+starfish             0.310811     0.032097
+stegosaurus          0.684211     0.067898
+stop_sign            0.826923     0.081930
+strawberry           0.350000     0.038550
+sunflower            0.536842     0.053568
+tick                 0.567568     0.056886
+trilobite            0.794393     0.078687
+umbrella             0.652174     0.064875
+watch                0.736059     0.072712
+water_lilly          0.272727     0.038699
+wheelchair           0.584615     0.058114
+wild_cat             0.055556     0.026391
+windsor_chair        0.960000     0.095051
+wrench               0.722222     0.072244
+yin_yang             0.796296     0.078937
+
+Accuracy of the method is 0.534099276703
+
+Computation time: 1840.501900 s
