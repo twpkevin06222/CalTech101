@@ -1,10 +1,7 @@
 fd, hog_image = hog(image, orientations=9, pixels_per_cell=(32, 32),
                     cells_per_block=(2, 2), visualise=True)
 
-Faces                0.833006     0.082347
-Faces_easy           0.964126     0.095429
-Leopards             0.513043     0.050540
-Motorbikes           0.969549     0.095967
+#Class              #Accuracy     #Std.Dev
 accordion            0.940000     0.093072
 airplanes            0.932464     0.092263
 anchor               0.379310     0.040113
@@ -41,6 +38,8 @@ elephant             0.348485     0.035768
 emu                  0.225000     0.026579
 euphonium            0.800000     0.079419
 ewer                 0.662651     0.065694
+Faces                0.833006     0.082347
+Faces_easy           0.964126     0.095429
 ferry                0.586207     0.058498
 flamingo             0.312500     0.032740
 flamingo_head        0.476190     0.050287
@@ -59,7 +58,8 @@ kangaroo             0.358333     0.037003
 ketch                0.620155     0.062618
 lamp                 0.750000     0.074883
 laptop               0.839506     0.083118
-llama                0.388889     0.040468
+Leopards             0.513043     0.050540
+llama                0.388889     0.040469
 lobster              0.173913     0.029266
 lotus                0.346939     0.037731
 mandolin             0.606061     0.061368
@@ -67,6 +67,7 @@ mayfly               0.153846     0.025760
 menorah              0.684211     0.067747
 metronome            0.695652     0.069458
 minaret              0.945205     0.093588
+Motorbikes           0.969549     0.095967
 nautilus             0.384615     0.039273
 octopus              0.421053     0.044260
 okapi                0.547619     0.055183
