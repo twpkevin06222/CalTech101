@@ -21,4 +21,5 @@ Total number of images, feature vector: (8677, 324)
 
 Accuracy of the method is 0.534099276703
 
-Computation time: 1840.501900 s
+Computation time: 1168.012040 s
+
