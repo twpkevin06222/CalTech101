@@ -71,7 +71,7 @@ pca_fit = pca.fit_transform(x_new01,y)
 # =============================================================================
 # C value loop
 # =============================================================================
-C_range = np.arange(0,11)
+C_range = np.arange(0,11) #could be change according to desire range
 C_scores = []
 h = 0
 x_p = pca_fit
