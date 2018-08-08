@@ -18,7 +18,7 @@ Data Processing:
 HOG Parameters:
 hog_image = hog(image, orientations=9, pixels_per_cell=(32, 32),cells_per_block=(2, 2), visualise=True)
 
-Total number of images, feature vector: (8677, 324)
+Total number of images, feature vector: (8677, 1764)
 
 Accuracy of the method is 0.534099276703
 
